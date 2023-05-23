@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 
 const Navbar = () => {
   return(
@@ -6,7 +7,7 @@ const Navbar = () => {
       <div className="flex place-content-end">
         <div className="flex justify-around w-[25%] pr-4">
           <div className="px-4 py-2 bg-gray-200 rounded text-gray-900 font-medium cursor-pointer">Log in</div>
-          <div className="px-4 py-2 bg-gray-200 rounded text-gray-900 font-medium cursor-pointer">Sign up</div>
+          <Link  href="/user/register"><div className="px-4 py-2 bg-gray-200 rounded text-gray-900 font-medium cursor-pointer">Sign up</div></Link>
         </div>
       </div>
     </section>
