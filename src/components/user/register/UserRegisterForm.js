@@ -4,6 +4,8 @@ import * as Yup from 'yup';
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 
+import md5 from 'md5-hash';
+
 import { AiOutlineEyeInvisible, AiOutlineEye } from 'react-icons/ai';
 
 const UserRegisterForm = () => {
@@ -50,6 +52,25 @@ const UserRegisterForm = () => {
     console.log('email ' + enteredEmail);
     console.log('hasło ' + enteredPassword);
     console.log('checkbox ' + isChecked);
+
+    let newHash = '';
+
+    function makeid(length) {
+      const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+      const charactersLength = characters.length;
+      let counter = 0;
+      while (counter < length) {
+        newHash += characters.charAt(Math.floor(Math.random() * charactersLength));
+        counter += 1;
+      }
+      return newHash;
+    }
+
+    const newId = md5(enteredEmail + makeid(5));
+
+    console.log(newId);
+
+    reset();
   };
 
   return(
@@ -96,7 +117,7 @@ const UserRegisterForm = () => {
             value: true,
             message: 'This field is required'
             }, minLength: {
-            value: 7,
+            value: 8,
             message: 'Minimal length: 8 characters' 
             }, pattern: {
               value: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/,
