@@ -6,6 +6,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import md5 from 'md5-hash';
 
+import axios from "axios";
+
 import { AiOutlineEyeInvisible, AiOutlineEye } from 'react-icons/ai';
 
 const UserRegisterForm = () => {
@@ -53,6 +55,7 @@ const UserRegisterForm = () => {
     console.log('hasło ' + enteredPassword);
     console.log('checkbox ' + isChecked);
 
+    // USER ID
     let newHash = '';
 
     function makeid(length) {
@@ -69,6 +72,25 @@ const UserRegisterForm = () => {
     const newId = md5(enteredEmail + makeid(5));
 
     console.log(newId);
+
+    // API
+    axios({
+      method: 'post',
+      url: '/api/user/auth/register',
+      data: {
+        firstName: enteredFirstName,
+        lastName: enteredLastName,
+        email: enteredEmail,
+        password: enteredPassword,
+        userID: newId
+      }
+    }).then((response) => {
+      console.log(response);
+      console.log('response ' + response.data.message)
+    }, (error) => {
+      console.log(error);
+      console.log('error msg ' + error.response.data.message)
+    });
 
     reset();
   };
@@ -119,6 +141,9 @@ const UserRegisterForm = () => {
             }, minLength: {
             value: 8,
             message: 'Minimal length: 8 characters' 
+            }, maxLength: {
+              value: 15,
+              message: 'Maximal length: 15 characters' 
             }, pattern: {
               value: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/,
               message: "Password must be between 8 to 15 characters and contain at least one lowercase letter, one uppercase latter, one numeric digit, one special character."
