@@ -10,6 +10,8 @@ import axios from "axios";
 
 import { AiOutlineEyeInvisible, AiOutlineEye } from 'react-icons/ai';
 
+import validatePassword from "../../../../lib/auth";
+
 const UserRegisterForm = () => {
 
   // visibility of password
@@ -54,6 +56,13 @@ const UserRegisterForm = () => {
     console.log('email ' + enteredEmail);
     console.log('hasło ' + enteredPassword);
     console.log('checkbox ' + isChecked);
+
+    // pass' validation
+    let isPassCorrect = validatePassword(enteredPassword)
+    if (!isPassCorrect) {
+      console.log('Password must be between 8 to 15 characters and contain at least one lowercase letter, one uppercase latter, one numeric digit, one special character.')
+      return
+    };
 
     // USER ID
     let newHash = '';
