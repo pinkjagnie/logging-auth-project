@@ -13,6 +13,7 @@ import { AiOutlineEyeInvisible, AiOutlineEye } from 'react-icons/ai';
 import validatePassword from "../../../../lib/auth";
 
 const UserRegisterForm = () => {
+  const [msgCreated, setMsgCreated] = useState("");
 
   // visibility of password
   const [passwordType, setPasswordType] = useState("password");
@@ -60,7 +61,8 @@ const UserRegisterForm = () => {
     // pass' validation
     let isPassCorrect = validatePassword(enteredPassword)
     if (!isPassCorrect) {
-      console.log('Password must be between 8 to 15 characters and contain at least one lowercase letter, one uppercase latter, one numeric digit, one special character.')
+      console.log('Password must be between 8 to 15 characters and contain at least one lowercase letter, one uppercase latter, one numeric digit, one special character.');
+      setMsgCreated('Password must be between 8 to 15 characters and contain at least one lowercase letter, one uppercase latter, one numeric digit, one special character.')
       return
     };
 
@@ -95,10 +97,12 @@ const UserRegisterForm = () => {
       }
     }).then((response) => {
       console.log(response);
-      console.log('response ' + response.data.message)
+      console.log('response ' + response.data.message);
+      setMsgCreated(response.data.message)
     }, (error) => {
       console.log(error);
-      console.log(error.data.message.errors.message);
+      console.log(error.response.data.message);
+      setMsgCreated(error.response.data.message);
     });
 
     reset();
@@ -106,6 +110,10 @@ const UserRegisterForm = () => {
 
   return(
     <section className="pb-14">
+
+      {msgCreated && <div className="pb-4">
+        <div className="text-bold text-xl text-center text-pink-800">{msgCreated}</div>
+      </div>}
       
       <p className="pt-4 pb-2 text-xs text-center italic">* - required fields</p>
 
