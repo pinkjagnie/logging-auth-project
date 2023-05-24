@@ -89,7 +89,7 @@ const UserRegisterForm = () => {
       console.log('response ' + response.data.message)
     }, (error) => {
       console.log(error);
-      console.log('error msg ' + error.response.data.message)
+      console.log(error.data.message.errors.message);
     });
 
     reset();

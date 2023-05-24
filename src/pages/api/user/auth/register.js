@@ -19,7 +19,7 @@ export default async function handler(req, res) {
   const existingUser = await User.findOne({ email: email })
 
   if (existingUser) {
-    res.status(422).json({ message: 'User with this email already exists!' });
+    res.status(422).json({ message: 'User with this email already exists! Try logging in instead' });
     mongoose.connection.close();
     return;
   }
@@ -34,14 +34,14 @@ export default async function handler(req, res) {
     userID: userID
   });
 
-  const validateError = newUser.validateSync();
-  console.log(validateError);
+  // const validateError = newUser.validateSync();
+  // console.log('validateee errrorrrrr ' + validateError);
  
   try {
     await User.create(newUser);
     res.status(201).json({ message: 'User created!' })
   } catch(err) {
-    console.log(err);
+    res.status(422).json({message: err})
   };
 
   mongoose.connection.close();
