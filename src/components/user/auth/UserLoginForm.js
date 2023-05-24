@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 
 import { useForm } from "react-hook-form";
+import { signIn } from 'next-auth/react';
 
 import { AiOutlineEyeInvisible, AiOutlineEye } from 'react-icons/ai';
 
@@ -31,7 +32,22 @@ const UserLoginForm = () => {
     console.log('email ' + enteredEmail);
     console.log('hasło ' + enteredPassword);
       
-    // TBD
+    // LOGGING
+    const result = await signIn('credentials', {
+      redirect: false,
+      email: enteredEmail,
+      password: enteredPassword,
+    });
+
+    console.log(result);
+
+    if (result) {
+      // set some auth state
+      console.log('nie ma błędu, nie ma');
+    } else {
+      console.log('bład błąd błądddddddd');
+      // console.log(result.error);
+    }
 
     reset();
   };
