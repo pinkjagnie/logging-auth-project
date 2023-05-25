@@ -71,6 +71,7 @@ const UserRegisterForm = () => {
       .then(res =>  console.log(res))
       .catch((error) => {
         console.log(error);
+        setMsgCreated("Did yoy remember to check that you are not a robot? Please try again")
       })
     } else {
       alert("Did you remeber to check that you are not a robot?");
@@ -82,7 +83,7 @@ const UserRegisterForm = () => {
     console.log('email ' + enteredEmail);
     console.log('hasło ' + enteredPassword);
     console.log('checkbox ' + isChecked);
-    console.log('TOKEN CAPTCHA ' + captchaToken);
+    // console.log('TOKEN CAPTCHA ' + captchaToken);
 
     // pass' validation
     let isPassCorrect = validatePassword(enteredPassword)
