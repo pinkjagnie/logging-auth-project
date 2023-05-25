@@ -2,9 +2,9 @@ import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
 import mongoose from 'mongoose';
-import User from '../../../../../models/User';
-import connectToDatabase from '../../../../../lib/db';
-import { verifyPassword } from '../../../../../lib/auth';
+import User from '../../../../models/User';
+import connectToDatabase from '../../../../lib/db';
+import { verifyPassword } from '../../../../lib/auth';
 
 export default NextAuth({
   //Configure JWT
@@ -17,19 +17,12 @@ export default NextAuth({
       async authorize(credentials) {
         await connectToDatabase();
 
-        // const usersCollection = client.db().collection('users');
-
-        const user = User.findOne({email: credentials.email})
+        const user = await User.findOne({ email: credentials.email })
         console.log(user)
-
-        // const user = await usersCollection.findOne({
-        //   email: credentials.email,
-        // });
-
+        
         if (!user) {
-          // client.close();
           mongoose.connection.close();
-          throw new Error('Nie znaleziono takiego użytkownika!');
+          throw new Error('No such email found. This user is not registered')
         }
 
         const isValid = await verifyPassword(
@@ -38,15 +31,12 @@ export default NextAuth({
         );
 
         if (!isValid) {
-          // client.close();
           mongoose.connection.close();
-          throw new Error('Ups, coś poszło nie tak!');
+          throw new Error('Incorrect password')
         }
-
-      
+     
         mongoose.connection.close();
 
-        // client.close();
         return { email: user.email };
       },
     }),

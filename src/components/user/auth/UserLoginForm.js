@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 import { useForm } from "react-hook-form";
-import { signIn } from 'next-auth/react';
+import { signIn } from "next-auth/react";
 
 import { AiOutlineEyeInvisible, AiOutlineEye } from 'react-icons/ai';
 
 const UserLoginForm = () => {
+  const [createdMsg, setCreatedMsg] = useState("");
+
+  const router = useRouter();
 
   // visibility of password
   const [passwordType, setPasswordType] = useState("password");
@@ -41,12 +45,11 @@ const UserLoginForm = () => {
 
     console.log(result);
 
-    if (result) {
-      // set some auth state
-      console.log('nie ma błędu, nie ma');
+    if (!result.error) {
+      router.replace('/');
     } else {
-      console.log('bład błąd błądddddddd');
-      // console.log(result.error);
+      setCreatedMsg(result.error)
+      console.log(result);
     }
 
     reset();
@@ -54,6 +57,8 @@ const UserLoginForm = () => {
 
   return(
     <section className="pb-14">
+
+      {createdMsg && <div className="text-bold text-center text-xl text-pink-800 pb-10">{createdMsg}</div>}
       
       <p className="pt-4 pb-2 text-xs text-center italic">* - required fields</p>
 

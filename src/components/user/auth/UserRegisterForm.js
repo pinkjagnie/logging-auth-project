@@ -87,7 +87,7 @@ const UserRegisterForm = () => {
     // API
     axios({
       method: 'post',
-      url: '/api/user/auth/register',
+      url: '/api/auth/register',
       data: {
         firstName: enteredFirstName,
         lastName: enteredLastName,
