@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+
+import ReCAPTCHA from "react-google-recaptcha";
 
 import * as Yup from 'yup';
 import { useForm } from "react-hook-form";
@@ -12,7 +14,10 @@ import { AiOutlineEyeInvisible, AiOutlineEye } from 'react-icons/ai';
 
 import validatePassword from "../../../../lib/auth";
 
+const captchaSiteKey = process.env.SITE_KEY;
+
 const UserRegisterForm = () => {
+  useEffect(() => {console.log(process.env.SITE_KEY)}, [])
   const [msgCreated, setMsgCreated] = useState("");
 
   // visibility of password
@@ -175,6 +180,10 @@ const UserRegisterForm = () => {
           <input type="checkbox" name="selectCheckbox" id="selectCheckbox" {...register('selectCheckbox')} />
           <label htmlFor="selectCheckbox" className="pl-2">I accept the terms of service</label>
           {errors.selectCheckbox && <p className="text-pink-900 italic">{errors.selectCheckbox.message}</p>}
+        </div>
+
+        <div className="pb-6 flex justify-center">
+          <ReCAPTCHA sitekey={captchaSiteKey}/>
         </div>
 
         <div className="flex justify-center py-4">
