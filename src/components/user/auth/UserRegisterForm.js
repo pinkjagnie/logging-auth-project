@@ -14,10 +14,7 @@ import { AiOutlineEyeInvisible, AiOutlineEye } from 'react-icons/ai';
 
 import validatePassword from "../../../../lib/auth";
 
-const captchaSiteKey = process.env.SITE_KEY;
-
 const UserRegisterForm = () => {
-  useEffect(() => {console.log(process.env.SITE_KEY)}, [])
   const [msgCreated, setMsgCreated] = useState("");
 
   // visibility of password
@@ -183,7 +180,7 @@ const UserRegisterForm = () => {
         </div>
 
         <div className="pb-6 flex justify-center">
-          <ReCAPTCHA sitekey={captchaSiteKey}/>
+          <ReCAPTCHA sitekey={process.env.NEXT_PUBLIC_SITE_KEY}/>
         </div>
 
         <div className="flex justify-center py-4">
