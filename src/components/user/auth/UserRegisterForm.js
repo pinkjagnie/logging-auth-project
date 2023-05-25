@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef } from "react";
 
 import ReCAPTCHA from "react-google-recaptcha";
 
@@ -16,6 +16,8 @@ import validatePassword from "../../../../lib/auth";
 
 const UserRegisterForm = () => {
   const [msgCreated, setMsgCreated] = useState("");
+  
+  const captchaRef = useRef(null);
 
   // visibility of password
   const [passwordType, setPasswordType] = useState("password");
@@ -42,23 +44,45 @@ const UserRegisterForm = () => {
     }
   });
 
-  async function onSubmit(data) {
+  async function onSubmit(data, e) {
     const enteredFirstName = data.firstName;
     const enteredLastName = data.lastName;
     const enteredEmail = data.email;
     const enteredPassword = data.password;
     const isChecked = data.selectCheckbox;
 
+    const inputValue = await e.target[0].value;
+    const captchaToken = captchaRef.current.getValue();
+
     if (!isChecked) {
       alert("Check if the form is filled in correctly! Did you remember to accept the terms of service?");
       return;
     } 
+
+    if (captchaToken) {
+      await axios({
+        method: 'post',
+        url: '/api/auth/captcha',
+        data: {
+          inputValue: inputValue,
+          captchaToken: captchaToken
+        }
+      })
+      .then(res =>  console.log(res))
+      .catch((error) => {
+        console.log(error);
+      })
+    } else {
+      alert("Did you remeber to check that you are not a robot?");
+      return;
+    }
 
     console.log('imię ' + enteredFirstName);
     console.log('nazwisko ' + enteredLastName);
     console.log('email ' + enteredEmail);
     console.log('hasło ' + enteredPassword);
     console.log('checkbox ' + isChecked);
+    console.log('TOKEN CAPTCHA ' + captchaToken);
 
     // pass' validation
     let isPassCorrect = validatePassword(enteredPassword)
@@ -108,6 +132,7 @@ const UserRegisterForm = () => {
     });
 
     reset();
+    captchaRef.current.reset();
   };
 
   return(
@@ -180,7 +205,7 @@ const UserRegisterForm = () => {
         </div>
 
         <div className="pb-6 flex justify-center">
-          <ReCAPTCHA sitekey={process.env.NEXT_PUBLIC_SITE_KEY}/>
+          <ReCAPTCHA sitekey={process.env.NEXT_PUBLIC_SITE_KEY} ref={captchaRef} />
         </div>
 
         <div className="flex justify-center py-4">
