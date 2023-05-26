@@ -2,6 +2,7 @@ import React from "react";
 
 import UserLoginForm from "@/components/user/auth/UserLoginForm";
 import UserGithubLogin from "@/components/user/auth/UserGithubLogin";
+import UserGoogleLogin from "@/components/user/auth/UserGoogleLogin";
 
 const UserLoginPage = () => {
   return(
@@ -14,6 +15,7 @@ const UserLoginPage = () => {
         <h1 className="text-center text-2xl font-bold">OR LOGIN WITH</h1>
       </div>
       <UserGithubLogin />
+      <UserGoogleLogin />
     </section>
   )
 };
