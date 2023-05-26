@@ -1,5 +1,6 @@
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
+import GitHubProvider from "next-auth/providers/github";
 
 import mongoose from 'mongoose';
 import User from '../../../../models/User';
@@ -40,5 +41,10 @@ export default NextAuth({
         return { email: user.email };
       },
     }),
+    GitHubProvider({
+      clientId: process.env.NEXT_PUBLIC_GITHUB_ID,
+      clientSecret: process.env.NEXT_PUBLIC_GITHUB_SECRET
+    })
   ],
+  secret: process.env.JWT_SECRET
 });
