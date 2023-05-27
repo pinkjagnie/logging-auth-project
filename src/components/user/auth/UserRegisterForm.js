@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
@@ -18,7 +18,6 @@ const UserRegisterForm = () => {
   const [msgCreated, setMsgCreated] = useState("");
   
   const { executeRecaptcha } = useGoogleReCaptcha();
-  // const captchaRef = useRef(null);
 
   // visibility of password
   const [passwordType, setPasswordType] = useState("password");
@@ -52,13 +51,39 @@ const UserRegisterForm = () => {
     const enteredPassword = data.password;
     const isChecked = data.selectCheckbox;
 
-    // const inputValue = await e.target[0].value;
-    // const captchaToken = captchaRef.current.getValue();
-
     if (!isChecked) {
       alert("Check if the form is filled in correctly! Did you remember to accept the terms of service?");
       return;
     } 
+
+    if (!executeRecaptcha) {
+      return;
+    }
+
+    try {
+      const token = await executeRecaptcha();
+
+      if (!token) {
+        setMsgCreated({ message: "Failed to send!!!", status: "Failed" });
+        return;
+      }
+
+      const result = await axios.post("/api/auth/captcha", {
+        token,
+      });
+      console.log(result);
+
+      if (result.data) {
+        // setResponse({
+        //   message: result.data.message,
+        //   status: result.data.status,
+        // });
+        console.log(result.data)
+      }
+    } catch(error) {
+      console.log(error);
+      setMsgCreated("Failed to send!!");
+    }
 
     // if (captchaToken) {
     //   await axios({
@@ -84,7 +109,6 @@ const UserRegisterForm = () => {
     console.log('email ' + enteredEmail);
     console.log('hasło ' + enteredPassword);
     console.log('checkbox ' + isChecked);
-    // console.log('TOKEN CAPTCHA ' + captchaToken);
 
     // pass' validation
     let isPassCorrect = validatePassword(enteredPassword)
