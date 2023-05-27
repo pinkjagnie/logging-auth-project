@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 
-import ReCAPTCHA from "react-google-recaptcha";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
 import * as Yup from 'yup';
 import { useForm } from "react-hook-form";
@@ -17,7 +17,8 @@ import validatePassword from "../../../../lib/auth";
 const UserRegisterForm = () => {
   const [msgCreated, setMsgCreated] = useState("");
   
-  const captchaRef = useRef(null);
+  const { executeRecaptcha } = useGoogleReCaptcha();
+  // const captchaRef = useRef(null);
 
   // visibility of password
   const [passwordType, setPasswordType] = useState("password");
@@ -51,32 +52,32 @@ const UserRegisterForm = () => {
     const enteredPassword = data.password;
     const isChecked = data.selectCheckbox;
 
-    const inputValue = await e.target[0].value;
-    const captchaToken = captchaRef.current.getValue();
+    // const inputValue = await e.target[0].value;
+    // const captchaToken = captchaRef.current.getValue();
 
     if (!isChecked) {
       alert("Check if the form is filled in correctly! Did you remember to accept the terms of service?");
       return;
     } 
 
-    if (captchaToken) {
-      await axios({
-        method: 'post',
-        url: '/api/auth/captcha',
-        data: {
-          inputValue: inputValue,
-          captchaToken: captchaToken
-        }
-      })
-      .then(res =>  console.log(res))
-      .catch((error) => {
-        console.log(error);
-        setMsgCreated("Did yoy remember to check that you are not a robot? Please try again")
-      })
-    } else {
-      alert("Did you remeber to check that you are not a robot?");
-      return;
-    }
+    // if (captchaToken) {
+    //   await axios({
+    //     method: 'post',
+    //     url: '/api/auth/captcha',
+    //     data: {
+    //       inputValue: inputValue,
+    //       captchaToken: captchaToken
+    //     }
+    //   })
+    //   .then(res =>  console.log(res))
+    //   .catch((error) => {
+    //     console.log(error);
+    //     setMsgCreated("Did yoy remember to check that you are not a robot? Please try again")
+    //   })
+    // } else {
+    //   alert("Did you remeber to check that you are not a robot?");
+    //   return;
+    // }
 
     console.log('imię ' + enteredFirstName);
     console.log('nazwisko ' + enteredLastName);
@@ -133,7 +134,7 @@ const UserRegisterForm = () => {
     });
 
     reset();
-    captchaRef.current.reset();
+    // captchaRef.current.reset();
   };
 
   return(
@@ -205,9 +206,9 @@ const UserRegisterForm = () => {
           {errors.selectCheckbox && <p className="text-pink-900 italic">{errors.selectCheckbox.message}</p>}
         </div>
 
-        <div className="pb-6 flex justify-center">
-          <ReCAPTCHA sitekey={process.env.NEXT_PUBLIC_SITE_KEY} ref={captchaRef} />
-        </div>
+        {/* <div className="pb-6 flex justify-center">
+            
+        </div> */}
 
         <div className="flex justify-center py-4">
           <button type="submit" className='w-[80%] outline px-6 py-4 font-medium bg-gray-700 disabled:bg-gray-500 text-zinc-200 hover:bg-gray-600' disabled={!isDirty || !isValid}>Create an account</button>
