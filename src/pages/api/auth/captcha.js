@@ -25,6 +25,7 @@ export default async function handler(req, res) {
     const response = await verifyRecaptcha(token);
 
     if (response.data.success && response.data.score >= 0.5) {
+      //INSERT LOGIC for saving data once the validation is complete
       return res.status(200).json({ status: "Success", message: "Yey! You are human" });
     } else {
       return res.json({status: "Failed", message: "Something went wrong, please try again!"});

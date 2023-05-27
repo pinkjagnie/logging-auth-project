@@ -74,35 +74,12 @@ const UserRegisterForm = () => {
       console.log(result);
 
       if (result.data) {
-        // setResponse({
-        //   message: result.data.message,
-        //   status: result.data.status,
-        // });
         console.log(result.data)
       }
     } catch(error) {
       console.log(error);
       setMsgCreated("Failed to send!!");
     }
-
-    // if (captchaToken) {
-    //   await axios({
-    //     method: 'post',
-    //     url: '/api/auth/captcha',
-    //     data: {
-    //       inputValue: inputValue,
-    //       captchaToken: captchaToken
-    //     }
-    //   })
-    //   .then(res =>  console.log(res))
-    //   .catch((error) => {
-    //     console.log(error);
-    //     setMsgCreated("Did yoy remember to check that you are not a robot? Please try again")
-    //   })
-    // } else {
-    //   alert("Did you remeber to check that you are not a robot?");
-    //   return;
-    // }
 
     console.log('imię ' + enteredFirstName);
     console.log('nazwisko ' + enteredLastName);
@@ -158,7 +135,6 @@ const UserRegisterForm = () => {
     });
 
     reset();
-    // captchaRef.current.reset();
   };
 
   return(
@@ -229,10 +205,6 @@ const UserRegisterForm = () => {
           <label htmlFor="selectCheckbox" className="pl-2">I accept the terms of service</label>
           {errors.selectCheckbox && <p className="text-pink-900 italic">{errors.selectCheckbox.message}</p>}
         </div>
-
-        {/* <div className="pb-6 flex justify-center">
-            
-        </div> */}
 
         <div className="flex justify-center py-4">
           <button type="submit" className='w-[80%] outline px-6 py-4 font-medium bg-gray-700 disabled:bg-gray-500 text-zinc-200 hover:bg-gray-600' disabled={!isDirty || !isValid}>Create an account</button>
