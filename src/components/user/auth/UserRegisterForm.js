@@ -122,7 +122,8 @@ const UserRegisterForm = () => {
         lastName: enteredLastName,
         email: enteredEmail,
         password: enteredPassword,
-        userID: newId
+        userID: newId,
+        active: false
       }
     }).then((response) => {
       console.log(response);

@@ -12,7 +12,7 @@ export default async function handler(req, res) {
 
   const data = req.body;
 
-  const { firstName, lastName, email, password, userID } = data;
+  const { firstName, lastName, email, password, userID, active } = data;
 
   await connectToDatabase();
 
@@ -31,7 +31,8 @@ export default async function handler(req, res) {
     lastName: lastName,
     email: email,
     password: hashedPassword,
-    userID: userID
+    userID: userID,
+    active: active
   });
 
   // const validateError = newUser.validateSync();
