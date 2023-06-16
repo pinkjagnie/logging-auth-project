@@ -44,6 +44,19 @@ const UserRegisterForm = () => {
     }
   });
 
+  const url = 'api/auth/confirm'
+
+  const sendConfirmationEmail = () => {
+    console.log('wyjdzie mail')
+
+    axios({
+      method: 'post',
+      url: url
+    })
+    
+    console.log('poszedł mail')
+  }
+
   async function onSubmit(data, e) {
     const enteredFirstName = data.firstName;
     const enteredLastName = data.lastName;
@@ -128,7 +141,8 @@ const UserRegisterForm = () => {
     }).then((response) => {
       console.log(response);
       console.log('response ' + response.data.message);
-      setMsgCreated(response.data.message)
+      setMsgCreated(response.data.message);
+      sendConfirmationEmail();
     }, (error) => {
       console.log(error);
       console.log(error.response.data.message);

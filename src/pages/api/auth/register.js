@@ -40,7 +40,7 @@ export default async function handler(req, res) {
  
   try {
     await User.create(newUser);
-    res.status(201).json({ message: 'User created!' })
+    res.status(201).json({ message: 'User created! Now please check your email to confirm your registration. Without this you will not be able to login to your accout' })
   } catch(err) {
     res.status(422).json({message: err})
   };
