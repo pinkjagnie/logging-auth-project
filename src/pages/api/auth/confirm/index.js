@@ -2,7 +2,7 @@ import nodemailer from "nodemailer";
 
 export default async function handler(req, res) {
 
-  const { firstName, email } = req.body;
+  const { firstName, email, newId } = req.body;
   
   // TBD: CUSTOM LINK
 
@@ -21,7 +21,7 @@ export default async function handler(req, res) {
     to: email,
     subject: 'Confirm singing in to our site',
     text: `Please confirm singing in to our site by clicking to link below`, // plain text body
-    html: `<b>Hello, ${firstName}! Please confirm singing in to our site by clicking to link below</b> <br/> <a href='http://www.google.pl'>www.google.pl</a>`, // html body
+    html: `<b>Hello, ${firstName}! Please confirm singing in to our site by clicking to link below</b> <br/> <a href='http://localhost:3000/user/confirm/${newId}' target="_blank">click here</a>`, // html body
   };
 
   // let info = await mailTransporter.sendMail(mailDetails, function(err, data) {

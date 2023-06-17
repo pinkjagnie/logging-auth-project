@@ -114,6 +114,8 @@ const UserRegisterForm = () => {
 
     console.log(newId);
 
+    // const confirmLink = `http://localhost:3000/user/confirm/${newId}`
+
     // API
     axios({
       method: 'post',
@@ -130,7 +132,7 @@ const UserRegisterForm = () => {
       console.log(response);
       console.log('response ' + response.data.message);
       setMsgCreated(response.data.message);
-      sendConfirmationEmail(enteredEmail, enteredFirstName);
+      sendConfirmationEmail(enteredEmail, enteredFirstName, newId);
     }, (error) => {
       console.log(error);
       console.log(error.response.data.message);
