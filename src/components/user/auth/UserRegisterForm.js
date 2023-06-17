@@ -13,6 +13,7 @@ import axios from "axios";
 import { AiOutlineEyeInvisible, AiOutlineEye } from 'react-icons/ai';
 
 import validatePassword from "../../../../lib/auth";
+import { sendConfirmationEmail } from "../../../../lib/auth";
 
 const UserRegisterForm = () => {
   const [msgCreated, setMsgCreated] = useState("");
@@ -42,20 +43,7 @@ const UserRegisterForm = () => {
       password: '',
       selectCheckbox: false
     }
-  });
-
-  const url = 'api/auth/confirm'
-
-  const sendConfirmationEmail = () => {
-    console.log('wyjdzie mail')
-
-    axios({
-      method: 'post',
-      url: url
-    })
-    
-    console.log('poszedł mail')
-  }
+  }); 
 
   async function onSubmit(data, e) {
     const enteredFirstName = data.firstName;
@@ -142,7 +130,7 @@ const UserRegisterForm = () => {
       console.log(response);
       console.log('response ' + response.data.message);
       setMsgCreated(response.data.message);
-      sendConfirmationEmail();
+      sendConfirmationEmail(enteredEmail, enteredFirstName);
     }, (error) => {
       console.log(error);
       console.log(error.response.data.message);
