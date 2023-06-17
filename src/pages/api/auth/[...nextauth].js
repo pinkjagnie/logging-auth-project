@@ -27,15 +27,19 @@ export default NextAuth({
           throw new Error('No such email found. This user is not registered')
         }
 
-        const isValid = await verifyPassword(
-          credentials.password,
-          user.password
-        );
+        if (user.active === false) {
+          throw new Error('You are not authenticated. Did you confirm your registration by clicking link in send email?')
+        } else if (user.active === true) {
+          const isValid = await verifyPassword(
+            credentials.password,
+            user.password
+          );
 
-        if (!isValid) {
-          mongoose.connection.close();
-          throw new Error('Incorrect password')
-        }
+          if (!isValid) {
+            mongoose.connection.close();
+            throw new Error('Incorrect password')
+          }
+        }        
      
         mongoose.connection.close();
 
