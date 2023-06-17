@@ -1,5 +1,5 @@
 import connectToDatabase from '../../../../../lib/db';
-import UserSchema from '../../../../../models/User';
+import User from '../../../../../models/User';
 
 async function handler(req, res) {
   if (req.method === 'PATCH') {
@@ -10,7 +10,7 @@ async function handler(req, res) {
     await connectToDatabase();
 
     try {
-      await UserSchema.findOneAndUpdate({ userID: slug }, { active: true });
+      await User.findOneAndUpdate({ userID: slug }, { active: true });
     } catch (error) {
       client.close();
       res.status(500).json({ message: "Failed" });
@@ -32,7 +32,7 @@ async function handler(req, res) {
       let results;
 
       try {
-        results = await UserSchema.find({ userID: slug })
+        results = await User.find({ userID: slug })
       } catch (error) {
         res.status(500).json({ message: "Failed" });
         return;
