@@ -4,8 +4,6 @@ export default async function handler(req, res) {
 
   const { firstName, email, newId } = req.body;
   
-  // TBD: CUSTOM LINK
-
   let mailTransporter = nodemailer.createTransport({
     host: 'mail55.mydevil.net',
     port: 587,
