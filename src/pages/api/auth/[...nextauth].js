@@ -7,6 +7,7 @@ import mongoose from 'mongoose';
 import User from '../../../../models/User';
 import connectToDatabase from '../../../../lib/db';
 import { verifyPassword } from '../../../../lib/auth';
+import { sendOtpCodeEmail } from '../../../../lib/auth';
 
 export default NextAuth({
   //Configure JWT
@@ -20,7 +21,7 @@ export default NextAuth({
         await connectToDatabase();
 
         const user = await User.findOne({ email: credentials.email })
-        console.log(user)
+        console.log('user  zloginu nextauth ' + user)
         
         if (!user) {
           mongoose.connection.close();
@@ -38,6 +39,8 @@ export default NextAuth({
           if (!isValid) {
             mongoose.connection.close();
             throw new Error('Incorrect password')
+          } else {
+            sendOtpCodeEmail(user.email, user.firstName, user.userID)
           }
         }        
      

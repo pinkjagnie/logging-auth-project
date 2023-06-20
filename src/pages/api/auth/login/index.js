@@ -2,7 +2,7 @@ import nodemailer from "nodemailer";
 
 export default async function handler(req, res) {
 
-  const { firstName, email, hash } = req.body;
+  const { firstName, email, userID } = req.body;
   
   let mailTransporter = nodemailer.createTransport({
     host: 'mail55.mydevil.net',
@@ -23,7 +23,7 @@ export default async function handler(req, res) {
       <b>Your secret code is:</b> <br/> 
       <b>1234</b> <br/> 
       <b>Click on the link below and enter the above code there</b> <br/> 
-      <a href='http://localhost:3000/user/login/${hash}' target="_blank">click here</a>`, // html body
+      <a href='http://localhost:3000/user/login/${userID}' target="_blank">click here</a>`, // html body
   };
 
   // let info = await mailTransporter.sendMail(mailDetails, function(err, data) {

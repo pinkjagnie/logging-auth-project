@@ -43,7 +43,7 @@ const UserLoginForm = () => {
       password: enteredPassword,
     });
 
-    console.log(result);
+    console.log('resuuuult ' + result);
 
     if (!result.error) {
       router.replace('/');
@@ -58,7 +58,7 @@ const UserLoginForm = () => {
   return(
     <section className="pb-14">
 
-      {createdMsg && <div className="text-bold text-center text-xl text-pink-800 pb-10">{createdMsg}</div>}
+      {createdMsg && <div className="w-[90%] mx-auto text-bold text-center text-xl text-pink-800 pb-10">{createdMsg}</div>}
       
       <p className="pt-4 pb-2 text-xs text-center italic">* - required fields</p>
 
