@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
+import { useRouter } from "next/router";
 
 import { useForm } from "react-hook-form";
 import axios from "axios";
 
 export default function Hash(props) {
+  const [msgCreated, setMsgCreated] = useState("");
+
+  const router = useRouter();
 
   const { register, handleSubmit, reset, formState: { errors, isDirty, isValid } } = useForm({
     defaultValues: {
@@ -20,8 +24,10 @@ export default function Hash(props) {
 
     if(enteredOtpCode.match(props.user.otpCode)) { 
       otpCodeIsValid = true;
+      router.push('/')
     } else { 
       otpCodeIsValid = false;
+      setMsgCreated("The entered code is incorrect. Please try again")
     }
 
     console.log(otpCodeIsValid)
@@ -33,6 +39,8 @@ export default function Hash(props) {
     <section className="pt-20">
       <div className="w-[90%] md:w-[70%] mx-auto">
         <h1 className="font-bold text-3xl uppercase text-center py-10">{props.user.firstName}, please enter below your secret code:</h1>
+
+        {msgCreated && <div className="w-[90%] mx-auto text-bold text-center text-xl text-pink-800 pb-10">{msgCreated}</div>}
         
         <form className="w-[90%] md:w-[60%] p-6 mx-auto" onSubmit={handleSubmit(onSubmit)}>
 
@@ -41,7 +49,11 @@ export default function Hash(props) {
             <input type='number' id='otpcode' className="w-[100%] border-b border-gray-900" {...      register("otpcode", { required: {
             value: true,
             message: 'This field is required'
-            }})} />
+            }, minLength: {
+              value: 4,
+              message: 'Minimal length: 4 characters' 
+            }
+            })} />
             {errors.otpcode && <p className="text-pink-900 italic">{errors.otpcode.message}</p>}
           </div>
 
