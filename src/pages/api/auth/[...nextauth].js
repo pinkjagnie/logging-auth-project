@@ -40,6 +40,7 @@ export default NextAuth({
             mongoose.connection.close();
             throw new Error('Incorrect password')
           } else {
+            
             sendOtpCodeEmail(user.email, user.firstName, user.userID)
           }
         }        
