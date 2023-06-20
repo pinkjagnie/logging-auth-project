@@ -32,7 +32,8 @@ export default async function handler(req, res) {
     email: email,
     password: hashedPassword,
     userID: userID,
-    active: active
+    active: active,
+    otpCode: ''
   });
 
   // const validateError = newUser.validateSync();

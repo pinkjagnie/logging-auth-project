@@ -17,7 +17,10 @@ const UserSchema = new mongoose.Schema({
   userID: {type: String, required: true},
 
   // active account
-  active: {type: Boolean}
+  active: {type: Boolean, required: true},
+
+  // otpCode
+  otpCode: {type: Number, required: true}
 })
 
 module.exports = mongoose.models.User || mongoose.model('User', UserSchema)
