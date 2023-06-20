@@ -16,13 +16,23 @@ export default function Hash(props) {
 
     console.log(enteredOtpCode);
 
+    let otpCodeIsValid;
+
+    if(enteredOtpCode.match(props.user.otpCode)) { 
+      otpCodeIsValid = true;
+    } else { 
+      otpCodeIsValid = false;
+    }
+
+    console.log(otpCodeIsValid)
+
     reset();
   };
 
   return(
     <section className="pt-20">
       <div className="w-[90%] md:w-[70%] mx-auto">
-        <h1 className="font-bold text-3xl uppercase text-center py-10">please enter below your secret code:</h1>
+        <h1 className="font-bold text-3xl uppercase text-center py-10">{props.user.firstName}, please enter below your secret code:</h1>
         
         <form className="w-[90%] md:w-[60%] p-6 mx-auto" onSubmit={handleSubmit(onSubmit)}>
 
@@ -45,32 +55,21 @@ export default function Hash(props) {
   )
 }
 
-// export async function getServerSideProps(context) {
+export async function getServerSideProps(context) {
 
-//   const { params } = context;
-//   const { slug } = params;
+  const { params } = context;
+  const { slug } = params;
 
-//   const response = await axios.get(
-//     `http://localhost:3000/api/auth/confirm/${slug}`
-//   );
-//   let user = response.data[0]
+  const response = await axios.get(
+    `http://localhost:3000/api/auth/login/${slug}`
+  );
 
-//   await axios.patch(`http://localhost:3000/api/auth/confirm/${slug}`, { active: true })
+  let user = response.data[0]
   
-  // await fetch(`http://localhost:3000/api/auth/confirm/${slug}`, {
-  //   method: "PATCH",
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //   },
-  //   body: JSON.stringify({
-  //     active: true,
-  //   })
-  // });
-  
-//    return {
-//     props: {
-//       user: user,
-//       slug: slug,
-//     }
-//   };
-// }
+   return {
+    props: {
+      user: user,
+      slug: slug,
+    }
+  };
+}

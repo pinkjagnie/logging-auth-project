@@ -21,29 +21,28 @@ async function handler(req, res) {
     res
     .status(200)
     .json({ message: "User data updated!" });
-    } 
-    // else {
-    //   console.log("TUTAJ")
+    } else {
+      console.log("TUTAJ")
       
-    //   const {slug} = req.query;
+      const {slug} = req.query;
 
-    //   const { active } = req.body;
+      // const { active } = req.body;
 
-    //   await connectToDatabase();
+      await connectToDatabase();
 
-    //   let results;
+      let results;
 
-    //   try {
-    //     results = await User.find({ userID: slug })
-    //   } catch (error) {
-    //     res.status(500).json({ message: "Failed" });
-    //     return;
-    //   }
+      try {
+        results = await User.find({ userID: slug })
+      } catch (error) {
+        res.status(500).json({ message: "Failed" });
+        return;
+      }
       
-    //   console.log('z apiiiiii results  ' + results)
+      console.log('z apiiiiii results  ' + results)
 
-    //   res.status(200).json(results);
-    // }
+      res.status(200).json(results);
+    }
 }
 
 export default handler;
