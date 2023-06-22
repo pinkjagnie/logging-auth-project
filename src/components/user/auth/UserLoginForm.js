@@ -46,7 +46,7 @@ const UserLoginForm = () => {
     console.log('resuuuult ' + result);
 
     if (!result.error) {
-      router.replace('/');
+      // router.replace('/');
     } else {
       setCreatedMsg(result.error)
       console.log(result);
